@@ -1,0 +1,58 @@
+# ==========================================================
+#              TOKEN PLUGIN - ADVANCED CONFIG
+# ==========================================================
+# Author: Gemini Assistant
+# Version: 1.0.0
+
+# 1. GENERAL SETTINGS
+settings:
+  prefix: "§8[§6TokenPlugin§8] "
+  default-lives: 10
+  max-lives: 50
+  auto-ban-on-zero-lives: true
+  unban-book-broadcast: true
+
+# 2. DROP RATES (Mobs থেকে টোকেন পাওয়ার চান্স - % এ)
+drop-chances:
+  common: 5.0      # ৫% চান্স
+  rare: 1.5        # ১.৫% চান্স
+  legendary: 0.2   # ০.২% চান্স
+  god: 0.01        # ০.০১% চান্স (Herobrine, Notch ইত্যাদি)
+
+# 3. DEATH SETTINGS
+death:
+  pvp:
+    lose-all-tokens: true        # PvP তে মরলে সব টোকেন হারাবে
+    lose-life: true              # PvP তে মরলে ১ লাইফ কমবে
+    keep-inventory: false        # PvP তে আইটেম ড্রপ হবে
+  natural:
+    lose-all-tokens: false       # লাভা বা অন্য কিছুতে মরলে টোকেন থাকবে
+    lose-life: false             # ন্যাচারাল মৃত্যুতে লাইফ কমবে না
+    keep-inventory: true         # ন্যাচারাল মৃত্যুতে আইটেম হারাবে না
+
+# 4. TOKEN ABILITIES SETTINGS
+abilities:
+  herobrine-cooldown: 300        # Herobrine বজ্রপাত ব্যবহারের কুলডাউন (সেকেন্ডে)
+  notch-creative-duration: 20    # Notch টোকেন দিলে কত সেকেন্ড ক্রিয়েটিভ থাকবে
+  null-invincible-duration: 15   # Null টোকেনে কতক্ষণ অমর থাকবে
+  warden-sonic-damage: 15.0      # Warden এর সনিক বুম কত ড্যামেজ দিবে
+
+# 5. SHOP SETTINGS (GUI)
+shop:
+  title: "§0§lToken Upgrade Shop"
+  exchange-rates:
+    common-to-rare: 5            # ৫টি কমন = ১টি রেয়ার
+    rare-to-legendary: 3         # ৩টি রেয়ার = ১টি লেজেন্ডারি
+    legendary-to-god: 5          # ৫টি লেজেন্ডারি = ১টি গড (Admin Only)
+
+# 6. LOCALIZATION (সব মেসেজ এখান থেকে পরিবর্তন করা যাবে)
+messages:
+  no-permission: "§cআপনার এই কমান্ড ব্যবহারের অনুমতি নেই!"
+  life-check: "§eআপনার বর্তমান লাইফ: §c%lives%§f/50"
+  pvp-death: "§cআপনি %killer% এর হাতে মারা গেছেন এবং ১টি লাইফ হারিয়েছেন!"
+  natural-death: "§aআপনি প্রাকৃতিকভাবে মারা গেছেন। আপনার টোকেনগুলো সুরক্ষিত আছে।"
+  token-received: "§aঅভিনন্দন! আপনি একটি §e%token% §aটোকেন পেয়েছেন!"
+  out-of-lives: "§4আপনার সব লাইফ শেষ হয়ে গেছে! আপনি সার্ভার থেকে ব্যান হলেন।"
+
+# 7. LOGGING
+debug: false  # কনসোলে সব টোকেন ব্যবহারের লগ দেখতে চাইলে true করুন
