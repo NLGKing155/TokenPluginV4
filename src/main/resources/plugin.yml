@@ -1,0 +1,33 @@
+name: TokenPlugin
+version: 1.0.0
+main: com.tokenplugin.TokenPlugin
+api-version: 1.20 # আপনার সার্ভার ভার্সন অনুযায়ী (১.২০ বা ১.২১)
+author: [YourName]
+description: A powerful 42 Token and Life System plugin.
+
+commands:
+  tokenshop:
+    description: Open the Token Upgrade GUI.
+    usage: /tokenshop
+    permission: tokenplugin.use
+  tokenadmin:
+    description: Admin command to manage tokens and lives.
+    usage: /tokenadmin <give|remove|reset> <player> <token> <amount>
+    permission: tokenplugin.admin
+  life:
+    description: Check your remaining lives.
+    usage: /life
+    permission: tokenplugin.use
+  unban:
+    description: Custom unban command for the Unban Book.
+    usage: /unban <player>
+    permission: tokenplugin.admin
+
+permissions:
+  tokenplugin.admin:
+    description: Full access to all token and life commands.
+    default: op
+  tokenplugin.use:
+    description: Permission to use basic features like shop and check lives.
+    default: true
+    
