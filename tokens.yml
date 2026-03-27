@@ -1,0 +1,84 @@
+package com.tokenplugin.managers;
+
+import com.tokenplugin.TokenPlugin;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+public class TokenManager {
+    private final TokenPlugin plugin;
+    private File file;
+    private FileConfiguration config;
+
+    // টোকেন ক্যাটাগরি ম্যাপিং
+    private final Map<String, String> tokenCategory = new HashMap<>();
+
+    public TokenManager(TokenPlugin plugin) {
+        this.plugin = plugin;
+        setupDatabase();
+        initializeCategories();
+    }
+
+    private void setupDatabase() {
+        if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
+        file = new File(plugin.getDataFolder(), "tokens.yml");
+        if (!file.exists()) {
+            try { file.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
+        }
+        config = YamlConfiguration.loadConfiguration(file);
+    }
+
+    private void initializeCategories() {
+        // ৪২টি টোকেনকে ক্যাটাগরি অনুযায়ী ম্যাপ করা হচ্ছে
+        registerGroup(Arrays.asList("Zombie", "Skeleton", "Creeper", "Spider", "Chicken", "Cow", "Pig", "Sheep", "Squid", "Bat", "Cod", "Salmon", "Rabbit", "Bee", "GlowSquid", "Fox"), "COMMON");
+        registerGroup(Arrays.asList("Enderman", "Blaze", "Ghast", "IronGolem", "Ravager", "Shulker", "Guardian", "Vindicator", "Evoker", "Witch", "Slime", "MagmaCube", "Phantom", "Pillager"), "RARE");
+        registerGroup(Arrays.asList("Warden", "Wither", "EnderDragon", "ElderGuardian", "WitherSkeleton", "PiglinBrute", "Stray", "Husk"), "LEGENDARY");
+        registerGroup(Arrays.asList("Herobrine", "Notch", "Null", "AdminToken"), "GOD");
+    }
+
+    private void registerGroup(List<String> tokens, String category) {
+        for (String s : tokens) tokenCategory.put(s, category);
+    }
+
+    // --- ADVANCED METHODS ---
+
+    // ১. টোকেনের পরিমাণ জানা
+    public int getAmount(UUID uuid, String tokenName) {
+        return config.getInt("players." + uuid + ".tokens." + tokenName + ".amount", 0);
+    }
+
+    // ২. টোকেন যোগ করা (সাথে হিস্টোরি ট্র্যাক করা)
+    public void addToken(UUID uuid, String tokenName, int amount) {
+        String path = "players." + uuid + ".tokens." + tokenName;
+        int current = getAmount(uuid, tokenName);
+        
+        config.set(path + ".amount", Math.max(0, current + amount));
+        config.set(path + ".category", tokenCategory.getOrDefault(tokenName, "UNKNOWN"));
+        config.set(path + ".last_updated", System.currentTimeMillis()); // সময় সেভ করে রাখা
+        save();
+    }
+
+    // ৩. টোকেন লেভেল চেক করা (ভবিষ্যতের জন্য)
+    public int getLevel(UUID uuid, String tokenName) {
+        return config.getInt("players." + uuid + ".tokens." + tokenName + ".level", 1);
+    }
+
+    // ৪. টোকেন রিসেট (PvP মৃত্যুর জন্য)
+    public void clearAllTokens(UUID uuid) {
+        config.set("players." + uuid + ".tokens", null);
+        config.set("players." + uuid + ".stats.total_lost", config.getInt("players." + uuid + ".stats.total_lost", 0) + 1);
+        save();
+    }
+
+    // ৫. ডাটা সেভ করা (Asynchronous করার সুবিধা আছে এখানে)
+    public void save() {
+        try { config.save(file); } catch (IOException e) { e.printStackTrace(); }
+    }
+
+    // ৬. সব টোকেন নাম পাওয়ার জন্য
+    public Set<String> getAllRegisteredTokens() {
+        return tokenCategory.keySet();
+    }
+}
