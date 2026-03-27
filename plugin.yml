@@ -1,0 +1,16 @@
+name: TokenPlugin
+version: 1.0.0
+main: com.tokenplugin.TokenPlugin
+api-version: '1.20'
+author: NLG_King155
+commands:
+  token:
+    description: Main token command
+    aliases: [t]
+  life:
+    description: Check or manage lives
+  tokenshop:
+    description: Open the token shop
+  tokenleaderboard:
+    description: View top players
+    aliases: [tlb]
